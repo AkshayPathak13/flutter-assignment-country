@@ -53,7 +53,7 @@ class _CountryScreenState extends State<CountryScreen> {
                                     return FilterLanguage(
                                       languages: loadedCountries.languages,
                                       callback: (updatedLanguages) {
-                                        context.read<CountryBloc>().add(
+                                        ctx.read<CountryBloc>().add(
                                             ReloadCountries(
                                                 countries:
                                                     loadedCountries.countries,
