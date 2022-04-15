@@ -26,6 +26,7 @@ class CountryBloc extends Bloc<CountryEvent, CountryStates> {
     on<ReloadCountries>((event, emit) async {
       emit(LoadingCountries());
       await Future.delayed(const Duration(seconds: 1));
+      if (event.searchText.isNotEmpty) {}
       emit(LoadedCountries(
           countries: event.countries,
           languages: event.languages,

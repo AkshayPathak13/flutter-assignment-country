@@ -1,3 +1,4 @@
+import 'package:ezcountries/arguments/country_arguments.dart';
 import 'package:ezcountries/blocs/continent/continent.dart';
 import 'package:ezcountries/screens/country.dart';
 import 'package:ezcountries/singleton.dart';
@@ -52,11 +53,11 @@ class ContinentScreen extends StatelessWidget {
               var continent = state.continents[index];
               return ListTile(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => CountryScreen(
-                            continentName: continent.name,
-                            continentCode: continent.code,
-                          )));
+                  Navigator.pushNamed(context, CountryScreen.route,
+                      arguments: CountryArguments(
+                        continentName: continent.name!,
+                        continentCode: continent.code!,
+                      ));
                 },
                 title: Text(continent.name ?? ''),
                 subtitle: Text(continent.code ?? ''),

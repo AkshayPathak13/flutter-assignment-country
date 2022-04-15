@@ -1,3 +1,5 @@
+import 'package:ezcountries/arguments/country_arguments.dart';
+import 'package:ezcountries/screens/country.dart';
 import 'package:flutter/material.dart';
 import './screens/continent.dart';
 
@@ -13,6 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      routes: {CountryScreen.route: (context) => const CountryScreen()},
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

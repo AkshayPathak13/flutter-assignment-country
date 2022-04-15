@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:ezcountries/arguments/country_arguments.dart';
 import 'package:ezcountries/models/country_model.dart';
 import 'package:ezcountries/singleton.dart';
 import 'package:flutter/material.dart';
@@ -8,10 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/country/country.dart';
 
 class CountryScreen extends StatefulWidget {
-  final String? continentName, continentCode;
-  const CountryScreen(
-      {Key? key, required this.continentName, required this.continentCode})
-      : super(key: key);
+  static const String route = '/CountryRoute';
+  const CountryScreen({Key? key}) : super(key: key);
 
   @override
   State<CountryScreen> createState() => _CountryScreenState();
@@ -20,9 +19,9 @@ class CountryScreen extends StatefulWidget {
 class _CountryScreenState extends State<CountryScreen> {
   final TextEditingController textEditingController = TextEditingController();
   Timer? timer;
-
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as CountryArguments;
     return BlocProvider<CountryBloc>(
         create: (context) =>
             CountryBloc(countryService: Singleton.countryService),
@@ -70,17 +69,18 @@ class _CountryScreenState extends State<CountryScreen> {
                                   style: TextStyle(color: Colors.black),
                                 )))
                     ]),
-                body: body(context, state));
+                body: body(context, state, args.continentCode));
           },
         ));
   }
 
-  Widget body(BuildContext context, CountryStates countryStates) {
+  Widget body(
+      BuildContext context, CountryStates countryStates, String continentCode) {
     switch (countryStates.runtimeType) {
       case Initial:
         context
             .read<CountryBloc>()
-            .add(LoadCountries(continentCode: widget.continentCode!));
+            .add(LoadCountries(continentCode: continentCode));
         return const Center(child: CircularProgressIndicator());
       case LoadingCountries:
         return const Center(child: CircularProgressIndicator());
