@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:ezcountries/models/country_model.dart';
 import 'package:ezcountries/singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -85,15 +86,21 @@ class _CountryScreenState extends State<CountryScreen> {
         return const Center(child: CircularProgressIndicator());
       case LoadedCountries:
         LoadedCountries loadedCountries = countryStates as LoadedCountries;
+        List<CountryModel> countries = loadedCountries.countries;
+        if (loadedCountries.searchText.isNotEmpty) {
+          countries = loadedCountries.countries
+              .where((element) => element.code == loadedCountries.searchText)
+              .toList();
+        }
+        if (countries.isEmpty) {
+          return const Center(
+              child: Text('No Country found with the searched code'));
+        }
         return ListView.builder(
-            itemCount: loadedCountries.countries.length,
+            itemCount: countries.length,
             itemBuilder: ((context, index) {
-              var country = loadedCountries.countries[index];
-
-              if ((loadedCountries.languages[country.native!] ?? true) &&
-                  (country.code!
-                      .toLowerCase()
-                      .startsWith(loadedCountries.searchText.toLowerCase()))) {
+              var country = countries[index];
+              if ((loadedCountries.languages[country.native!] ?? true)) {
                 return ListTile(
                   onTap: () {},
                   title: Text(country.name ?? ''),
