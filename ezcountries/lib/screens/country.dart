@@ -91,7 +91,9 @@ class _CountryScreenState extends State<CountryScreen> {
               var country = loadedCountries.countries[index];
 
               if ((loadedCountries.languages[country.native!] ?? true) &&
-                  (country.name!.startsWith(loadedCountries.searchText))) {
+                  (country.code!
+                      .toLowerCase()
+                      .startsWith(loadedCountries.searchText.toLowerCase()))) {
                 return ListTile(
                   onTap: () {},
                   title: Text(country.name ?? ''),
